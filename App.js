@@ -4,15 +4,19 @@ import {
 	Text, 
 	View,
 	TouchableOpacity,
-	Image
+	Image,
+	Modal,
+	Dimensions,
 	} from 'react-native';
 import MapView from 'react-native-maps';
 import Menu from './Menu'
 import SideMenu from 'react-native-side-menu';
 
+const window = Dimensions.get('window');
 const menuIcon = require('./assets/menu.png');
 const markerIcon = require('./assets/marker.png');
 const rideIcon = require('./assets/ride.png');
+const iconSize = 29;
 
 const styles = StyleSheet.create({
 	container: {
@@ -40,15 +44,22 @@ const styles = StyleSheet.create({
 		bottom: 20,
 		padding: 10,
 	},
+	rideModalContainer: {
+		width: .9*window.width,
+		height: .9*window.height,
+		marginLeft: .05*window.width,
+		marginTop: .05*window.height,
+		backgroundColor: 'rgba(0,0,255,.5)',
+	},
 });
-
-
 
 export default class App extends React.Component {
 	constructor(props){
 		super(props);
 		
 		this.toggle = this.toggle.bind(this);
+		this.toggleRideModal = this.toggleRideModal.bind(this);
+		this.toggleReportModal = this.toggleReportModal.bind(this);
 		
 		this.state = {
 			isOpen: false,
@@ -57,10 +68,24 @@ export default class App extends React.Component {
 				{
 					key: 0,
 					latlng: {latitude: 40.1020, longitude: -88.2272},
-					title: 'Hello world',
-					description: 'lorem ipsum curriculum vitae',
+					title: 'Car accident',
+					description: 'Authorized by police',
+				},
+				{
+					key: 1,
+					latlng: {latitude: 40.1090, longitude: -88.2272},
+					title: 'Unlith path',
+					description: 'Authorized by Student Patrol',
+				},
+				{
+					key: 2,
+					latlng: {latitude: 40.1040, longitude: -88.2372},
+					title: 'Suspicious man',
+					description: 'Pacing outside Nugent',
 				},
 			],
+			rideModalIsVisible: false,
+			reportModalIsVisible: false,
 		};
 	}
 	
@@ -79,6 +104,28 @@ export default class App extends React.Component {
 			isOpen: false,
 			selectedItem: item,
 		});
+		
+	toggleRideModal(){
+		this.setState({
+			rideModalIsVisible: !this.state.rideModalIsVisible,
+		});
+	}
+	
+	updateRideModalState(isVisible){
+		this.setState({ rideModalIsVisible });
+	}
+	
+	toggleReportModal(){
+		this.setState({
+			reportModalIsVisible: !this.state.reportModalIsVisible,
+		});
+	}
+	
+	updateReportModalState(isVisible){
+		this.setState({ reportModalIsVisible });
+	}
+	
+	
 		
 	render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={navigator}/>;
@@ -115,7 +162,8 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={menuIcon}
-							style={{ width: 32, height: 32 }}
+							style={{ width: iconSize, height: iconSize, backgroundColor: 'white', padding: 20,
+							borderRadius: 20, opacity: .75 }}
 						/>
 					</TouchableOpacity>
 					
@@ -125,21 +173,32 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={markerIcon}
-							style={{ width: 42, height: 42 }}
+							style={{ width: iconSize, height: iconSize, backgroundColor: '#ff5033', padding: iconSize,
+							borderRadius: iconSize, opacity: .8 }}
 						/>
 					</TouchableOpacity>
 					
 					<TouchableOpacity
-						onPress={this.toggle}
+						onPress={this.toggleRideModal}
 						style={styles.rideButton}
 					>
 					    <Image
 							source={rideIcon}
-							style={{ width: 42, height: 42 }}
+							style={{ width: iconSize, height: iconSize, backgroundColor: '#8ae0f4', padding: iconSize,
+							borderRadius: iconSize, opacity: .75 }}
 						/>
 					</TouchableOpacity>
 					
 				</SideMenu>
+				<Modal
+					style={styles.rideModal}
+					visible={this.state.rideModalIsVisible}
+					transparent={true}
+				>
+				<View style={styles.rideModalContainer}>
+					<Text style={styles.rideHeading}>Hello world</Text>
+				</View>
+				</Modal>
 			</View>
 		);
 	}

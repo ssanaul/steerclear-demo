@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     paddingTop: 5,
   },
+  footer: {
+	marginTop: window.height-175
+  }
 });
 
 export default function Menu({ onItemSelected }) {
@@ -66,6 +69,10 @@ export default function Menu({ onItemSelected }) {
       >
         Illini Union
       </Text>
+	  
+	  <View style={styles.footer}>
+		<Text>SteerClear | Log out</Text>
+	  </View>
     </ScrollView>
   );
 }
