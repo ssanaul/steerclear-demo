@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 const window = Dimensions.get('window');
-const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
+const avi = require('./assets/avi.jpg');
 
 const styles = StyleSheet.create({
   menu: {
@@ -47,24 +47,24 @@ export default function Menu({ onItemSelected }) {
     <ScrollView scrollsToTop={false} style={styles.menu}>
       <View style={styles.avatarContainer}>
         <Image
+          source={avi}
           style={styles.avatar}
-          source={{ uri }}
         />
-        <Text style={styles.name}>Your name</Text>
+        <Text style={styles.name}>ss7@illinois.edu</Text>
       </View>
 
       <Text
         onPress={() => onItemSelected('About')}
         style={styles.item}
       >
-        About
+        Home
       </Text>
 
       <Text
         onPress={() => onItemSelected('Contacts')}
         style={styles.item}
       >
-        Contacts
+        Illini Union
       </Text>
     </ScrollView>
   );
