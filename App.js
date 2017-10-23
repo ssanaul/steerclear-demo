@@ -53,6 +53,14 @@ export default class App extends React.Component {
 		this.state = {
 			isOpen: false,
 			selectedItem: 'About',
+			markers: [
+				{
+					key: 0,
+					latlng: {latitude: 40.1020, longitude: -88.2272},
+					title: 'Hello world',
+					description: 'lorem ipsum curriculum vitae',
+				},
+			],
 		};
 	}
 	
@@ -91,8 +99,16 @@ export default class App extends React.Component {
 							latitudeDelta: 0.0722,
 							longitudeDelta: 0.0221,
 						}}
-					/>
-					
+					>
+						{this.state.markers.map(marker => (
+							<MapView.Marker
+								key={marker.key}
+								coordinate={marker.latlng}
+								title={marker.title}
+								description={marker.description}
+							/>
+						))}
+					</MapView>
 					<TouchableOpacity
 						onPress={this.toggle}
 						style={styles.menuButton}
@@ -109,7 +125,7 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={markerIcon}
-							style={{ width: 40, height: 40 }}
+							style={{ width: 42, height: 42 }}
 						/>
 					</TouchableOpacity>
 					
@@ -119,7 +135,7 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={rideIcon}
-							style={{ width: 40, height: 40 }}
+							style={{ width: 42, height: 42 }}
 						/>
 					</TouchableOpacity>
 					
