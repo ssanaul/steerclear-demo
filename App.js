@@ -37,7 +37,7 @@ const saferides = {
   number: '2172657433',
   prompt: true,
 }
-const callErr = "Err: Could not make call";
+const callErr = "Err";
 
 const apiKey = 'AIzaSyASYV0vUMhJq28hX1zrE3sI2jEd689CAI8';
 
@@ -127,6 +127,7 @@ export default class App extends React.Component {
 		this.updateAddress = this.updateAddress.bind(this);
 		this.pushMarker = this.pushMarker.bind(this);
 		this.setCurrentLocation = this.setCurrentLocation.bind(this);
+		this.onItemSelected = this.onItemSelected.bind(this);
 		
 		this.state = {
 			isOpen: false,
@@ -214,7 +215,7 @@ export default class App extends React.Component {
 			key: this.state.markerIndex,
 			latlng: this.state.savedLocations[this.state.address],
 			title: this.state.description,
-			description: 'Not authorized',
+			description: this.state.address,
 		};
 		markersCopy.push(newMarker);
 		let currentMarker = this.state.markerIndex;
@@ -312,9 +313,10 @@ export default class App extends React.Component {
 						<Button
 							raised
 							large
-							title='Call SafeWalks'
+							title='Call SafeWalks 217-333-1216'
+							style={{width: 200, marginBottom: 36}}
 							icon={{name: 'phone', type: 'font-awesome'}}
-							backgroundColor='#fd686c'
+							backgroundColor='rgba(29,127,201,.8)'
 							borderRadius={2}
 							onPress={
 								function(){
@@ -322,13 +324,13 @@ export default class App extends React.Component {
 									}
 								}
 							/>
-						<Text style={{fontSize: 18,marginBottom: 50}}>217-333-1216</Text>
 						<Button
 							raised
 							large
-							title='Call SafeRides'
+							title='Call SafeRides 217-265-7433'
+							style={{width: 200}}
 							icon={{name: 'phone', type: 'font-awesome'}}
-							backgroundColor='#ec464c'
+							backgroundColor='rgba(40,60,140,.8)'
 							borderRadius={2}
 							onPress={
 								function(){
@@ -336,7 +338,6 @@ export default class App extends React.Component {
 									}
 								}
 							/>
-						<Text style={{fontSize: 18}}>217-265-7433</Text>
 					</View>
 				</Modal>
 				
