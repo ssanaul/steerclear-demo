@@ -127,11 +127,10 @@ export default class App extends React.Component {
 		this.updateAddress = this.updateAddress.bind(this);
 		this.pushMarker = this.pushMarker.bind(this);
 		this.setCurrentLocation = this.setCurrentLocation.bind(this);
-		this.onItemSelected = this.onItemSelected.bind(this);
 		
 		this.state = {
 			isOpen: false,
-			selectedItem: 'About',
+			selectedItem: '',
 			markers: [
 				{
 					key: 0,
