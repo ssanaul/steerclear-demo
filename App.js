@@ -14,12 +14,13 @@ import {
 	FormLabel,
 	FormInput,
 	FormValidationMessage,
+	CheckBox,
 	} from 'react-native-elements';
 	
 import MapView from 'react-native-maps';
 import Menu from './Menu'
 import SideMenu from 'react-native-side-menu';
-import call from 'react-native-phone-call'
+import call from 'react-native-phone-call';
 
 const window = Dimensions.get('window');
 const menuIcon = require('./assets/menu.png');
@@ -37,6 +38,8 @@ const saferides = {
   prompt: true,
 }
 const callErr = "Err: Could not make call";
+
+const apiKey = 'AIzaSyASYV0vUMhJq28hX1zrE3sI2jEd689CAI8';
 
 const styles = StyleSheet.create({
 	container: {
@@ -119,6 +122,7 @@ export default class App extends React.Component {
 		this.toggle = this.toggle.bind(this);
 		this.toggleRideModal = this.toggleRideModal.bind(this);
 		this.toggleReportModal = this.toggleReportModal.bind(this);
+		this.toggleAnonymousReport = this.toggleAnonymousReport.bind(this);
 		
 		this.state = {
 			isOpen: false,
@@ -145,6 +149,7 @@ export default class App extends React.Component {
 			],
 			rideModalIsVisible: false,
 			reportModalIsVisible: false,
+			reportIsAnonymous: false,
 		};
 	}
 	
@@ -184,11 +189,16 @@ export default class App extends React.Component {
 		this.setState({ reportModalIsVisible });
 	}
 	
+	toggleAnonymousReport(){
+		this.setState({
+			reportIsAnonymous: !this.state.reportIsAnonymous,
+		});
+	}
 	
-		
+	
 	render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={navigator}/>;
-
+	
 		return (
 			<View style={styles.container}>
 				<SideMenu
@@ -314,20 +324,29 @@ export default class App extends React.Component {
 						<FormLabel labelStyle={{color:'white'}}>Address</FormLabel>
 						<FormInput inputStyle={{color:'white', width: 300}}/>
 						<Button 
-							style={{marginTop: 10}}
+							style={{marginTop: 10, marginBottom: 10}}
 							backgroundColor='rgba(255,255,255,.3)'
 							borderRadius={5}
 							title='Use current location'
 							icon={{name: 'location-arrow', type: 'font-awesome'}}
 						/>
+						<CheckBox
+							title='Anonymous'
+							checked={this.state.reportIsAnonymous}
+							onIconPress={this.toggleAnonymousReport}
+							containerStyle={{
+								backgroundColor: 'rgba(255,255,255,0)',
+								borderWidth: 0,
+								}}
+							textStyle={{color:'white'}}
+						/>
 						<Button
-							large
 							raised
 							title='Submit'
 							color='black'
 							backgroundColor='#dedede'
 							borderRadius={5}
-							style={{marginTop: 42}}
+							style={{marginTop: 10}}
 						/>
 					</View>
 				</Modal>
