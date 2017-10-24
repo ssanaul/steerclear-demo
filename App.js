@@ -7,10 +7,15 @@ import {
 	Image,
 	Modal,
 	Dimensions,
+	TextInput,
 	} from 'react-native';
 import {
 	Button,
+	FormLabel,
+	FormInput,
+	FormValidationMessage,
 	} from 'react-native-elements';
+	
 import MapView from 'react-native-maps';
 import Menu from './Menu'
 import SideMenu from 'react-native-side-menu';
@@ -20,18 +25,18 @@ const window = Dimensions.get('window');
 const menuIcon = require('./assets/menu.png');
 const markerIcon = require('./assets/marker.png');
 const rideIcon = require('./assets/ride.png');
-const iconSize = 29;
+const iconSize = 42;
 const closeIcon = require('./assets/close.png');
 
 const safewalks = {
   number: '2173331216',
   prompt: true,
 }
-
 const saferides = {
   number: '2172657433',
   prompt: true,
 }
+const callErr = "Err: Could not make call";
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,18 +51,26 @@ const styles = StyleSheet.create({
 	menuButton: {
 		position: 'absolute',
 		top: 20,
+		left: 10,
 		padding: 10,
+		backgroundColor: 'rgba(186,186,186,.7)',
+		borderRadius: iconSize,
 	},
 	markerButton: {
 		position: 'absolute',
 		bottom: 20,
-		right: 0,
+		right: 10,
 		padding: 10,
+		backgroundColor: 'rgba(255,80,51,.7)',
+		borderRadius: iconSize,
 	},
 	rideButton: {
 		position: 'absolute',
 		bottom: 20,
+		left: 10,
 		padding: 10,
+		backgroundColor: 'rgba(138,224,244,.7)',
+		borderRadius: iconSize,
 	},
 	rideModalContainer: {
 		width: .9*window.width,
@@ -66,8 +79,10 @@ const styles = StyleSheet.create({
 		marginTop: .25*window.height,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(161,237,255,.8)',
+		backgroundColor: 'rgba(161,237,255,.9)',
 		borderRadius: 2,
+		borderColor: 'white',
+		borderWidth: 1,
 	},
 	closeRideModalButton: {
 		position: 'absolute',
@@ -76,15 +91,17 @@ const styles = StyleSheet.create({
 	},
 	reportModalContainer: {
 		width: .9*window.width,
-		height: .5*window.height,
+		height: .6*window.height,
 		marginLeft: .05*window.width,
-		marginTop: .25*window.height,
+		marginTop: .2*window.height,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(232,48,48,.8)',
+		backgroundColor: 'rgba(232,48,48,.9)',
 		borderRadius: 2,
+		borderColor: 'white',
+		borderWidth: 1
 	},
-	reportModalText: {
+	reportModalHeading: {
 		color: 'white',
 		fontSize: 32,
 	},
@@ -204,8 +221,7 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={menuIcon}
-							style={{ width: iconSize, height: iconSize, backgroundColor: 'white', padding: 20,
-							borderRadius: 20, opacity: .8 }}
+							style={{ width: iconSize, height: iconSize, opacity: .9 }}
 						/>
 					</TouchableOpacity>
 					
@@ -215,8 +231,7 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={markerIcon}
-							style={{ width: iconSize, height: iconSize, backgroundColor: '#ff5033', padding: iconSize,
-							borderRadius: iconSize, opacity: .8 }}
+							style={{ width: iconSize, height: iconSize, opacity: .9 }}
 						/>
 					</TouchableOpacity>
 					
@@ -226,8 +241,7 @@ export default class App extends React.Component {
 					>
 					    <Image
 							source={rideIcon}
-							style={{ width: iconSize, height: iconSize, backgroundColor: '#8ae0f4', padding: iconSize,
-							borderRadius: iconSize, opacity: .8 }}
+							style={{ width: iconSize, height: iconSize, opacity: .9 }}
 						/>
 					</TouchableOpacity>
 					
@@ -245,7 +259,7 @@ export default class App extends React.Component {
 						>
 							<Image
 								source={closeIcon}
-								style={{ width: iconSize, height: iconSize, padding: iconSize-10}}
+								style={{ width: iconSize, height: iconSize, padding: 20}}
 							/>
 						</TouchableOpacity>
 						<Button
@@ -256,7 +270,7 @@ export default class App extends React.Component {
 							backgroundColor='#fd686c'
 							onPress={
 								function(){
-									call(safewalks).catch();
+									call(safewalks).catch(console.log(callErr));
 									}
 								}
 							/>
@@ -266,10 +280,10 @@ export default class App extends React.Component {
 							large
 							title='Call SafeRides'
 							icon={{name: 'phone', type: 'font-awesome'}}
-							backgroundColor='#fb614b'
+							backgroundColor='#ec464c'
 							onPress={
 								function(){
-									call(saferides).catch();
+									call(saferides).catch(console.log(callErr));
 									}
 								}
 							/>
@@ -289,12 +303,32 @@ export default class App extends React.Component {
 						>
 							<Image
 								source={closeIcon}
-								style={{ width: iconSize, height: iconSize, padding: iconSize-10}}
+								style={{ width: iconSize, height: iconSize, padding: 20}}
 							/>
 						</TouchableOpacity>
-						<Text style={styles.reportModalText}>
+						<Text style={styles.reportModalHeading}>
 							File a report
 						</Text>
+						<FormLabel labelStyle={{color:'white'}}>Description</FormLabel>
+						<FormInput inputStyle={{color:'white', width: 300}}/>
+						<FormLabel labelStyle={{color:'white'}}>Address</FormLabel>
+						<FormInput inputStyle={{color:'white', width: 300}}/>
+						<Button 
+							style={{marginTop: 10}}
+							backgroundColor='rgba(255,255,255,.3)'
+							borderRadius={5}
+							title='Use current location'
+							icon={{name: 'location-arrow', type: 'font-awesome'}}
+						/>
+						<Button
+							large
+							raised
+							title='Submit'
+							color='black'
+							backgroundColor='#dedede'
+							borderRadius={5}
+							style={{marginTop: 42}}
+						/>
 					</View>
 				</Modal>
 				

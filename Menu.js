@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: window.width,
     height: window.height,
-    backgroundColor: 'gray',
+    backgroundColor: '#bababa',
     padding: 20,
   },
   avatarContainer: {
@@ -39,9 +39,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '300',
     paddingTop: 5,
+	marginBottom: 5,
+  },
+  itemHeader: {
+	borderBottomWidth: 1,
+	borderColor: 'black',
+	marginBottom: 7,
   },
   footer: {
-	marginTop: window.height-175
+	position: 'absolute',
+	top: window.height-75
   }
 });
 
@@ -55,23 +62,35 @@ export default function Menu({ onItemSelected }) {
         />
         <Text style={styles.name}>ss7@illinois.edu</Text>
       </View>
+	  
+	  <View style={styles.itemHeader}>
+	  <Text style={styles.item}>Saved locations</Text>
+	  </View>
 
       <Text
-        onPress={() => onItemSelected('About')}
+        onPress={() => onItemSelected('Home')}
         style={styles.item}
       >
         Home
       </Text>
 
       <Text
-        onPress={() => onItemSelected('Contacts')}
+        onPress={() => onItemSelected('Union')}
         style={styles.item}
       >
         Illini Union
       </Text>
 	  
+      <Text
+        onPress={() => onItemSelected('Library')}
+        style={styles.item}
+      >
+        Main Library
+      </Text>
+	  
 	  <View style={styles.footer}>
-		<Text>SteerClear | Log out</Text>
+		<Text>SteerClear</Text>
+		<Text style={{textDecorationLine:'underline'}}>Log out | Report a bug</Text>
 	  </View>
     </ScrollView>
   );
