@@ -17,6 +17,7 @@ const menuIcon = require('./assets/menu.png');
 const markerIcon = require('./assets/marker.png');
 const rideIcon = require('./assets/ride.png');
 const iconSize = 29;
+const closeIcon = require('./assets/close.png');
 
 const styles = StyleSheet.create({
 	container: {
@@ -46,10 +47,41 @@ const styles = StyleSheet.create({
 	},
 	rideModalContainer: {
 		width: .9*window.width,
-		height: .9*window.height,
+		height: .5*window.height,
 		marginLeft: .05*window.width,
-		marginTop: .05*window.height,
-		backgroundColor: 'rgba(0,0,255,.5)',
+		marginTop: .25*window.height,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(161,237,255,.8)',
+		borderRadius: 2,
+	},
+	rideModalText: {
+		color: 'black',
+		fontSize: 32,
+	},
+	closeRideModalButton: {
+		position: 'absolute',
+		top: -10,
+		right: -10,
+	},
+	reportModalContainer: {
+		width: .9*window.width,
+		height: .5*window.height,
+		marginLeft: .05*window.width,
+		marginTop: .25*window.height,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(232,48,48,.8)',
+		borderRadius: 2,
+	},
+	reportModalText: {
+		color: 'white',
+		fontSize: 32,
+	},
+	closeReportModalButton: {
+		position: 'absolute',
+		top: -10,
+		right: -10,
 	},
 });
 
@@ -163,12 +195,12 @@ export default class App extends React.Component {
 					    <Image
 							source={menuIcon}
 							style={{ width: iconSize, height: iconSize, backgroundColor: 'white', padding: 20,
-							borderRadius: 20, opacity: .75 }}
+							borderRadius: 20, opacity: .8 }}
 						/>
 					</TouchableOpacity>
 					
 					<TouchableOpacity
-						onPress={this.toggle}
+						onPress={this.toggleReportModal}
 						style={styles.markerButton}
 					>
 					    <Image
@@ -185,20 +217,58 @@ export default class App extends React.Component {
 					    <Image
 							source={rideIcon}
 							style={{ width: iconSize, height: iconSize, backgroundColor: '#8ae0f4', padding: iconSize,
-							borderRadius: iconSize, opacity: .75 }}
+							borderRadius: iconSize, opacity: .8 }}
 						/>
 					</TouchableOpacity>
 					
 				</SideMenu>
+				
 				<Modal
 					style={styles.rideModal}
 					visible={this.state.rideModalIsVisible}
 					transparent={true}
 				>
-				<View style={styles.rideModalContainer}>
-					<Text style={styles.rideHeading}>Hello world</Text>
-				</View>
+					<View style={styles.rideModalContainer}>
+						<TouchableOpacity
+							onPress={this.toggleRideModal}
+							style={styles.closeRideModalButton}
+						>
+							<Image
+								source={closeIcon}
+								style={{ width: iconSize, height: iconSize, padding: iconSize-10}}
+							/>
+						</TouchableOpacity>
+						<Text style={styles.rideModalText}>
+							Call SafeWalks:{'\n'}
+							1-800-111-1111{'\n'}
+							Call SafeRides:{'\n'}
+							1-800-222-2222
+						</Text>
+					</View>
 				</Modal>
+				
+				<Modal
+					style={styles.reportModal}
+					visible={this.state.reportModalIsVisible}
+					transparent={true}
+				>
+					<View style={styles.reportModalContainer}>
+						<TouchableOpacity
+							onPress={this.toggleReportModal}
+							style={styles.closeReportModalButton}
+						>
+							<Image
+								source={closeIcon}
+								style={{ width: iconSize, height: iconSize, padding: iconSize-10}}
+							/>
+						</TouchableOpacity>
+						<Text style={styles.reportModalText}>
+							File a report
+						</Text>
+					</View>
+				</Modal>
+				
+				
 			</View>
 		);
 	}
