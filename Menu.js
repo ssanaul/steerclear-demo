@@ -7,8 +7,7 @@ import {
   View,
   Image,
   Text,
-} from 'react-native';
-
+	} from 'react-native';
 const window = Dimensions.get('window');
 const avi = require('./assets/avi.jpg');
 
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
   footer: {
 	position: 'absolute',
 	top: window.height-75
-  }
+  },
 });
 
 export default function Menu({ onItemSelected }) {

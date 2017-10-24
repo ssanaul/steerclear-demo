@@ -125,6 +125,8 @@ export default class App extends React.Component {
 		this.toggleAnonymousReport = this.toggleAnonymousReport.bind(this);
 		this.updateDescription = this.updateDescription.bind(this);
 		this.updateAddress = this.updateAddress.bind(this);
+		this.pushMarker = this.pushMarker.bind(this);
+		this.setCurrentLocation = this.setCurrentLocation.bind(this);
 		
 		this.state = {
 			isOpen: false,
@@ -134,27 +136,21 @@ export default class App extends React.Component {
 					key: 0,
 					latlng: {latitude: 40.1020, longitude: -88.2272},
 					title: 'Car accident',
-					description: 'Authorized by police',
-				},
-				{
-					key: 1,
-					latlng: {latitude: 40.1090, longitude: -88.2272},
-					title: 'Unlith path',
 					description: 'Authorized by Student Patrol',
 				},
-				{
-					key: 2,
-					latlng: {latitude: 40.1040, longitude: -88.2372},
-					title: 'Suspicious man',
-					description: 'Pacing outside Nugent',
-				},
 			],
+			savedLocations: {
+				'Illini Union': {latitude: 40.1092, longitude: -88.2272},
+				'Main Library': {latitude: 40.1047, longitude: -88.2290},
+				'Nugent Hall': {latitude: 40.1039, longitude: -88.2372},
+				'Electrical and Computer Engineering Building': {latitude: 40.1139, longitude: -88.2280}
+			},
 			rideModalIsVisible: false,
 			reportModalIsVisible: false,
 			reportIsAnonymous: false,
 			description: '',
 			address: '',
-			markerIndex: 3,
+			markerIndex: 1,
 		};
 	}
 	
@@ -212,8 +208,30 @@ export default class App extends React.Component {
 		});
 	}
 	
-
+	pushMarker(){
+		let markersCopy = this.state.markers;
+		let newMarker = {	
+			key: this.state.markerIndex,
+			latlng: this.state.savedLocations[this.state.address],
+			title: this.state.description,
+			description: 'Not authorized',
+		};
+		markersCopy.push(newMarker);
+		let currentMarker = this.state.markerIndex;
+		currentMarker++;
+		this.setState({
+			markers: markersCopy,
+			markerIndex: currentMarker++,
+			reportModalIsVisible: false,
+			address: '',
+		});
+	}
 	
+	setCurrentLocation(){
+		this.setState({
+			address: 'Electrical and Computer Engineering Building',
+		});
+	}
 	
 	render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} navigator={navigator}/>;
@@ -297,6 +315,7 @@ export default class App extends React.Component {
 							title='Call SafeWalks'
 							icon={{name: 'phone', type: 'font-awesome'}}
 							backgroundColor='#fd686c'
+							borderRadius={2}
 							onPress={
 								function(){
 									call(safewalks).catch(console.log(callErr));
@@ -310,6 +329,7 @@ export default class App extends React.Component {
 							title='Call SafeRides'
 							icon={{name: 'phone', type: 'font-awesome'}}
 							backgroundColor='#ec464c'
+							borderRadius={2}
 							onPress={
 								function(){
 									call(saferides).catch(console.log(callErr));
@@ -346,13 +366,15 @@ export default class App extends React.Component {
 						<FormLabel labelStyle={{color:'white'}}>Address</FormLabel>
 						<FormInput
 							inputStyle={{color:'white', width: 300}}
-							onChange={this.updateAddress.bind(this)}/>
+							onChange={this.updateAddress.bind(this)}
+							value={this.state.address}/>
 						<Button 
 							style={{marginTop: 10, marginBottom: 10}}
 							backgroundColor='rgba(255,255,255,.3)'
 							borderRadius={5}
 							title='Use current location'
 							icon={{name: 'location-arrow', type: 'font-awesome'}}
+							onPress={this.setCurrentLocation}
 						/>
 						
 						<CheckBox
@@ -366,7 +388,6 @@ export default class App extends React.Component {
 								}}
 							textStyle={{color:'white'}}
 						/>
-						<Text>{this.state.description}</Text>
 						<Button
 							raised
 							title='Submit'
@@ -374,6 +395,7 @@ export default class App extends React.Component {
 							backgroundColor='#dedede'
 							borderRadius={5}
 							style={{marginTop: 10}}
+							onPress = {this.pushMarker}
 						/>
 					</View>
 				</Modal>
