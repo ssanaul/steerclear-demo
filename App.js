@@ -82,9 +82,9 @@ const styles = StyleSheet.create({
 		marginTop: .25*window.height,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: 'rgba(161,237,255,.9)',
+		backgroundColor: 'rgba(235,245,255,.9)',
 		borderRadius: 2,
-		borderColor: 'white',
+		borderColor: 'rgba(161,237,255,.1)',
 		borderWidth: 1,
 	},
 	closeRideModalButton: {
@@ -123,6 +123,8 @@ export default class App extends React.Component {
 		this.toggleRideModal = this.toggleRideModal.bind(this);
 		this.toggleReportModal = this.toggleReportModal.bind(this);
 		this.toggleAnonymousReport = this.toggleAnonymousReport.bind(this);
+		this.updateDescription = this.updateDescription.bind(this);
+		this.updateAddress = this.updateAddress.bind(this);
 		
 		this.state = {
 			isOpen: false,
@@ -150,6 +152,9 @@ export default class App extends React.Component {
 			rideModalIsVisible: false,
 			reportModalIsVisible: false,
 			reportIsAnonymous: false,
+			description: '',
+			address: '',
+			markerIndex: 3,
 		};
 	}
 	
@@ -194,6 +199,20 @@ export default class App extends React.Component {
 			reportIsAnonymous: !this.state.reportIsAnonymous,
 		});
 	}
+	
+	updateDescription(event){
+		this.setState({
+			description: event.nativeEvent.text,
+		});
+	}
+	
+	updateAddress(event){
+		this.setState({
+			address: event.nativeEvent.text,
+		});
+	}
+	
+
 	
 	
 	render() {
@@ -319,10 +338,15 @@ export default class App extends React.Component {
 						<Text style={styles.reportModalHeading}>
 							File a report
 						</Text>
+						
 						<FormLabel labelStyle={{color:'white'}}>Description</FormLabel>
-						<FormInput inputStyle={{color:'white', width: 300}}/>
+						<FormInput
+							inputStyle={{color:'white', width: 300}}
+							onChange={this.updateDescription.bind(this)}/>
 						<FormLabel labelStyle={{color:'white'}}>Address</FormLabel>
-						<FormInput inputStyle={{color:'white', width: 300}}/>
+						<FormInput
+							inputStyle={{color:'white', width: 300}}
+							onChange={this.updateAddress.bind(this)}/>
 						<Button 
 							style={{marginTop: 10, marginBottom: 10}}
 							backgroundColor='rgba(255,255,255,.3)'
@@ -330,16 +354,19 @@ export default class App extends React.Component {
 							title='Use current location'
 							icon={{name: 'location-arrow', type: 'font-awesome'}}
 						/>
+						
 						<CheckBox
 							title='Anonymous'
 							checked={this.state.reportIsAnonymous}
 							onIconPress={this.toggleAnonymousReport}
+							onPress={this.toggleAnonymousReport}
 							containerStyle={{
 								backgroundColor: 'rgba(255,255,255,0)',
 								borderWidth: 0,
 								}}
 							textStyle={{color:'white'}}
 						/>
+						<Text>{this.state.description}</Text>
 						<Button
 							raised
 							title='Submit'
