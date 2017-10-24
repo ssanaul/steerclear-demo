@@ -8,9 +8,13 @@ import {
 	Modal,
 	Dimensions,
 	} from 'react-native';
+import {
+	Button,
+	} from 'react-native-elements';
 import MapView from 'react-native-maps';
 import Menu from './Menu'
 import SideMenu from 'react-native-side-menu';
+import call from 'react-native-phone-call'
 
 const window = Dimensions.get('window');
 const menuIcon = require('./assets/menu.png');
@@ -18,6 +22,16 @@ const markerIcon = require('./assets/marker.png');
 const rideIcon = require('./assets/ride.png');
 const iconSize = 29;
 const closeIcon = require('./assets/close.png');
+
+const safewalks = {
+  number: '2173331216',
+  prompt: true,
+}
+
+const saferides = {
+  number: '2172657433',
+  prompt: true,
+}
 
 const styles = StyleSheet.create({
 	container: {
@@ -54,10 +68,6 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		backgroundColor: 'rgba(161,237,255,.8)',
 		borderRadius: 2,
-	},
-	rideModalText: {
-		color: 'black',
-		fontSize: 32,
 	},
 	closeRideModalButton: {
 		position: 'absolute',
@@ -238,12 +248,32 @@ export default class App extends React.Component {
 								style={{ width: iconSize, height: iconSize, padding: iconSize-10}}
 							/>
 						</TouchableOpacity>
-						<Text style={styles.rideModalText}>
-							Call SafeWalks:{'\n'}
-							1-800-111-1111{'\n'}
-							Call SafeRides:{'\n'}
-							1-800-222-2222
-						</Text>
+						<Button
+							raised
+							large
+							title='Call SafeWalks'
+							icon={{name: 'phone', type: 'font-awesome'}}
+							backgroundColor='#fd686c'
+							onPress={
+								function(){
+									call(safewalks).catch();
+									}
+								}
+							/>
+						<Text style={{fontSize: 18,marginBottom: 50}}>217-333-1216</Text>
+						<Button
+							raised
+							large
+							title='Call SafeRides'
+							icon={{name: 'phone', type: 'font-awesome'}}
+							backgroundColor='#fb614b'
+							onPress={
+								function(){
+									call(saferides).catch();
+									}
+								}
+							/>
+						<Text style={{fontSize: 18}}>217-265-7433</Text>
 					</View>
 				</Modal>
 				
